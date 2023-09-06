@@ -1,28 +1,35 @@
 const fs = require("fs");
+
 const ytdl = require("ytdl-core");
 
-const videoURL = "http://www.youtube.com/watch?v=aqz-KE-bpKQ";
-
+const videoURL = "https://www.youtube.com/watch?v=eBSQug_xtwc";
 
 const options = {
-  quality: "highest", 
-  filter: "audioandvideo", 
+  quality: "highest",
+  filter: "audioandvideo",
 };
 
 const videoStream = ytdl(videoURL, options);
 
-videoStream.pipe(fs.createWriteStream('video.mp4'));
+async function descargarVideo() {
+  const info = await ytdl.getInfo(videoURL);
+  const titulo = info.videoDetails.title;
 
+  console.log("🚀 ~ file: server.js:16 ~ descargarVideo ~ titulo:", titulo);
 
-videoStream.on('progress', (recorido, downloaded, total) => {
+  videoStream.pipe(fs.createWriteStream(`${titulo}.mp4`));
+}
+
+descargarVideo();
+
+videoStream.on("progress", (recorrido, downloaded, total) => {
   const percent = (downloaded / total) * 100;
-  console.log(`Descargando: ${percent.toFixed(2)}% completado`);
 });
 
-videoStream.on('end', () => {
-  console.log('Descarga completada');
+videoStream.on("end", () => {
+  console.log("Descarga completada");
 });
 
-videoStream.on('error', (err) => {
-  console.error('Error al descargar el video:', err);
+videoStream.on("error", (err) => {
+  console.error("Error al descargar el video:", err);
 });
