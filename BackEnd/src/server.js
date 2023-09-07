@@ -3,16 +3,16 @@ const app = express();
 const fs = require("fs");
 const ytdl = require("ytdl-core");
 const bodyParser = require("body-parser");
-const cors = require("cors"); // Importa cors
+const cors = require("cors");
 
 app.use(bodyParser.json());
-app.use(cors()); // Habilita CORS
+app.use(cors());
 
 app.post("/descargar", async (req, res) => {
-  const  videoURL = req.body;
+  const { videoURL } = req.body;
+console.log(videoURL)
 
   try {
-    // Verifica si la URL es válida antes de continuar
     if (!ytdl.validateURL(videoURL)) {
       throw new Error("URL de video de YouTube no válida");
     }

@@ -11,7 +11,8 @@ export const Youtebe = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:3001/descargar", { videoURL });
+      const response = await axios.post("http://localhost:3001/descargar",{videoURL});
+
       setMessage(response.data.message);
     } catch (error) {
       console.error("Error al enviar la solicitud al servidor:", error);
